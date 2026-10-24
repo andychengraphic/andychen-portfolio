@@ -1,0 +1,75 @@
+@import 'tailwindcss';
+
+/*
+  Owners comes from the Adobe Fonts kit in index.html, which registers the family as "owners".
+  "Owners Local" is a fallback to an installed copy if the kit can't load.
+*/
+@font-face {
+  font-family: 'Owners Local';
+  src: local('Owners Bold'), local('Owners-Bold');
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Owners Local';
+  src: local('Owners'), local('Owners Regular'), local('Owners-Regular');
+  font-weight: 400;
+  font-display: swap;
+}
+
+@theme {
+  /* Body copy is Owners Text (falls back to Owners until the Adobe kit includes it); headings stay Owners. */
+  --font-sans: 'owners-text', 'owners', 'Owners Local', 'Helvetica Neue', Arial, sans-serif;
+  --font-display: 'owners', 'Owners Local', 'Helvetica Neue', Arial, sans-serif;
+
+  --color-paper: #ffffff;
+  --color-mute: #8a8a8a;
+  --color-line: #262626;
+  --color-tile: #141414;
+
+  --ease-glide: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  --animate-rise: rise 1.1s var(--ease-glide) both;
+  /* Page fade on arrival (Work and Fun Stuff). Backwards fill so nothing lingers after it ends. */
+  --animate-page-in: page-in .3s ease-out backwards;
+  @keyframes page-in { from { opacity: 0 } }
+  @keyframes rise { from { opacity: 0; transform: translateY(18px) } to { opacity: 1; transform: none } }
+}
+
+/* Height of the Work with me tab (padding + text + text padding), so full-window pages can leave room. */
+:root { --tab-h: calc(12px + clamp(11px, 3.4vw, 13px) + 2 * clamp(8px, .75vw, 11px)); }
+@media (min-width: 40rem) { :root { --tab-h: calc(12px + 15px + 2 * clamp(8px, .75vw, 11px)); } }
+@media (min-width: 48rem) { :root { --tab-h: calc(12px + clamp(17px, 1.6vw, 21px) + 2 * clamp(8px, .75vw, 11px)); } }
+
+@layer base {
+  html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+  body {
+    @apply bg-black text-paper font-sans antialiased;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  /* Every heading on the site is set in Owners Bold. */
+  h1, h2, h3, h4 { @apply font-display font-bold; }
+  :focus-visible { outline: 1px solid currentColor; outline-offset: 4px; }
+  ::selection { background: #fff; color: #000; }
+}
+
+@utility wrap {
+  width: 100%;
+  padding-inline: clamp(16px, 2.2vw, 32px);
+}
+
+/* Small uppercase labels: nav links, tags, section eyebrows. */
+@utility label {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1.4;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
